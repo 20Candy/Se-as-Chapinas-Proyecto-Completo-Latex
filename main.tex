@@ -6,8 +6,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\title{Trabajo de Graduación UVG}
-\author{Carol Arévalo}
+\title{Plantilla para Trabajos de Graduación UVG}
+\author{MSc. Miguel Zea}
 \date{\today}
 
 % Comandos definidos por el usuario en el archivo comandos_usuario.tex
@@ -31,8 +31,12 @@
 \usepackage{xfrac}
 \usepackage{float}
 \usepackage{mathtools}
+\usepackage{tabularx}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[hypertexnames=false]{hyperref}
 % \usepackage{bookmark}
+\usepackage{listings}
+\usepackage{pdfpages}
 \usepackage{subcaption}
 \usepackage{babelbib}
 \usepackage[bottom]{footmisc}
@@ -145,7 +149,9 @@
 		\vfill
 		\vfill
 		\Large Trabajo de graduación en modalidad megaproyecto tecnológico presentado por \\
-		\Large \nombreestudiante \\
+		\vfill
+            \Large \textbf{\nombreestudiante} \\
+            \vfill
 		\Large Para optar al grado académico de Licenciada en \uvgcarrera \\
 		\vfill
 		\large Guatemala, \mesentrega del \anoentrega
@@ -254,6 +260,21 @@
 	\addcontentsline{toc}{chapter}{Lista de Figuras}
 \fi
 
+% LISTADO DE CUADROS
+% --------------------------------------------------------------------------------
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage  
+
+\ifdefined\CAPcuadros
+	\newpage
+    \cleardoublepage\phantomsection
+	\renewcommand{\listtablename}{Lista de Cuadros}
+	\listoftables
+	\addcontentsline{toc}{chapter}{Lista de Cuadros}
+\fi
 
 % RESUMEN
 % --------------------------------------------------------------------------------
@@ -367,7 +388,6 @@
 % --------------------------------------------------------------------------------
 
 \ifdefined\CAPresultados
-	\newpage
 	\chapter{Resultados}
 	\ifdefined\parpordefecto
 		\defaultparformat{resultados}
