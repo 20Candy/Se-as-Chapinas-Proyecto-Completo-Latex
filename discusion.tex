@@ -1,8 +1,177 @@
 A lo largo del proyecto, se abordaron las necesidades específicas de la comunidad sorda en Guatemala, prestando especial atención a la adaptación cultural y a la integración de LENSEGUA, la lengua de señas guatemalteca. En esta sección, se analizarán los hallazgos clave y las lecciones aprendidas en cada fase del proyecto, destacando los desafíos y las soluciones implementadas para crear una herramienta que responda a las demandas comunicativas y educativas de sus usuarios.
 
 
+% Modulo de vision por computadora
+\section{Visión por computadora} 
+
+\subsection*{Desempeño del modelo}
+
+El modelo final tiene una precisión de 0.8802, una sensibilidad de 0.9685 y una puntuación F1 de 0.9706.
+Esto indica que el modelo tiene un buen desempeño en la clasificación de los gestos de lengua de señas de Guatemala.
+Adicional a esto, el modelo tiene la capacidad de procesar 19.38 fotogramas por segundo, lo cual indica que el modelo es capaz de reconocer los gestos en tiempo real con una latencia baja.
+En otras palabras, para un video grabado a 30 fotogramas por segundo, la velocidad más comúnmente utilizada en dispositivos móviles, el modelo es capaz de procesar los fotogramas a un 64.6\% de la velocidad de grabación.
+Al utilizar un video grabado a 24 fotogramas por segundo, la velocidad relativa del modelo aumenta a un 80.75\% de la velocidad de grabación.
+
+Para la elección del modelo final, se consideraron varios factores, como la precisión, la sensibilidad, y la puntuación F1.
+No se considero la velocidad de procesamiento del modelo, ya que en general los modelos de reconocimiento de lengua de señas presentaron velocidades de procesamiento muy similares.
+La precisión, la cual indica la proporción de predicciones correctas, fue el factor más importante en la elección del modelo final, ya que se consideró que era importante que el modelo fuera capaz de reconocer correctamente los gestos de lengua de señas.
+Sin embargo, la sensibilidad y la puntuación F1 también fueron factores importantes, ya que indican la proporción de verdaderos positivos y la precisión del modelo, respectivamente.
+
+Un modelo con una alta precisión, pero que produjera muchos falsos positivos o tuviera una baja sensibilidad, no sería útil en la práctica, ya que no sería capaz de reconocer correctamente los gestos de lengua de señas.
+En el caso de un modelo con baja sensibilidad, este modelo no sería capaz de predecir en la mayoría de los casos, lo cual resultaría en un modelo poco útil.
+Por otro lado, un modelo con una alta sensibilidad, pero que produjera muchos falsos positivos, tampoco sería útil en la práctica, ya que produciría mucho ruido en las predicciones.
+Balancear estos dos factores es importante para obtener un modelo con un buen desempeño en la clasificación de los gestos de lengua de señas, lo cual se logró con el modelo final.
+
+En las pruebas realizadas en tiempo real, el modelo final fue capaz de reconocer correctamente los gestos de lengua de señas de Guatemala en la mayoría de los casos.
+De los 192 videos de prueba, el modelo fue capaz de reconocer correctamente los gestos de lengua de señas en 169, lo cual corresponde a un 88\% de precisión.
+En la Figura \ref{fig:RealTimeRecognitionUnica} se puede observar el desempeño del modelo en tiempo real.
+Sin embargo, en las pruebas de reconocimiento de múltiples palabras, el modelo no fue capaz de reconocer correctamente los gestos de lengua de señas.
+De los 27 videos de prueba, el modelo no fue capaz de reconocer correctamente los gestos de lengua de señas en ninguno de los casos.
+
+\subsection*{Limitaciones del modelo}
+
+A pesar de que el modelo final tiene un buen desempeño en la clasificación de los gestos de lengua de señas de Guatemala, existen algunas limitaciones que deben ser consideradas.
+Una de las limitaciones del modelo es que no es capaz de reconocer correctamente los gestos de lengua de señas en tiempo real en todos los casos.
+En las pruebas realizadas con un conjunto de datos de una sola palabra por video, el modelo fue capaz de reconocer la seña correctamente en un 88\% de los casos.
+Sin embargo, en las pruebas de reconocimiento de múltiples palabras, el modelo no fue capaz de reconocer correctamente los gestos de lengua de señas en ninguno de los casos.
+Esto indica que el modelo tiene dificultades para reconocer los gestos de lengua de señas en tiempo real cuando se presentan múltiples palabras en un video.
+
+Esta limitación se debe a varios factores, entre los cuales esta el conjunto de datos de entrenamiento y la forma en la que se identifica el inicio y el fin de una seña.
+Al realizar el análisis de similitud entre las clases, se observó que algunas clases tenían un alto grado de similitud en los movimientos de las manos, lo cual puede dificultar la distinción entre ellas.
+Estas clases que tienen un alto grado de similitud son las que presentan mayores dificultades para el modelo, lo cual lleva a que se produzcan errores en la clasificación de los gestos de lengua de señas.
+Adicional a esto, el análisis de similitud entre todas las clases mostró que la mayoria de las clases presentan cierto grado de superposición, lo cual puede dificultar la distinción entre ellas.
+
+Esta limitación proveniente del conjunto de datos esta directamente relacionada con la forma en la que se identifica el inicio y el fin de una seña, la cual constituye otra limitación del modelo.
+Debido a que el modelo distingue el inicio y el fin de una seña utilizando un umbral de confianza y un tiempo mínimo de duración, es posible que el modelo no sea capaz de identificar correctamente el inicio y el fin de una seña en todos los casos.
+La superposición entre las clases dificulta la identificación del inicio de una seña, ya que durante la transición entre una seña y otra, el modelo no puede predecir con certeza cuál es la seña que se está realizando.
+Al no ser capaz de identificar correctamente la seña durante estos periodos de transición, el modelo puede producir errores en la clasificación de los gestos de lengua de señas.
+Esto lleva a un efecto de acumulación de errores, y hace que cada seña consecutiva sea más difícil de reconocer correctamente.
+
+Como se mencionó anteriormente, el conjunto de datos de entrenamiento fue un factor limitante en el desempeño del modelo.
+Adicional a la superposición entre las clases, el conjunto de datos de entrenamiento también presentó desafíos en el balance de las clases.
+Debido a que el conjunto de datos está compuesto por los fotogramas de los videos, y no por los videos completos, es posible que algunas clases tengan más fotogramas que otras.
+Esto sucede con las señas que tienen duración más larga, ya que estas señas tienen más fotogramas en el conjunto de datos.
+Al tener más fotogramas, estas clases tienen una mayor probabilidad de ser seleccionadas durante el entrenamiento, lo cual puede llevar a un desbalance en el conjunto de datos.
+
+El desbalance en el conjunto de datos puede llevar a que el modelo tenga dificultades para reconocer las clases minoritarias, ya que estas clases tienen menos ejemplos en el conjunto de datos.
+Esto se podría solucionar utilizando técnicas de disminución de la clase mayoritaria, como la de submuestreo, pero esto podría llevar a una pérdida de información en el conjunto de datos.
+Debido a que no se puede seleccionar los fotogramas a eliminar del conjunto de datos para el submuestreo, es posible que se eliminen fotogramas importantes para la clasificación de los gestos de lengua de señas.
+La eliminación de estos fotogramas podría llevar a una pérdida de información en el conjunto de datos, lo cual podría llevar a un desempeño inferior del modelo.
+
+La forma correcta de lidiar con el desbalance en el conjunto de datos es desde la recolección de los datos, ya que no se puede solucionar completamente en la etapa de entrenamiento.
+Al recolectar los datos, es importante asegurarse de que todas las clases tengan una cantidad similar total de fotogramas en el conjunto de datos. 
+Para este proyecto, el enfoque de la recolección de datos fue recolectar la misma cantidad de videos para cada clase, pero no se consideró la duración de los videos.
+Al considerar la duración de los videos, se podrían haber recolectado más videos para las clases que tienen una duración más corta, y menos videos para las clases que tienen una duración más larga.
+Esto habría permitido tener un conjunto de datos más balanceado, y habría mejorado el desempeño del modelo en la clasificación de las señas.
+
+\subsection*{Cumplimiento de los objetivos}
+
+El objetivo principal de este proyecto era desarrollar un modelo de reconocimiento de lengua de señas de Guatemala en tiempo real, el cual fuera capaz de reconocer un conjunto establecido de palabras.
+Este objetivo se logró, ya que el modelo final fue capaz de reconocer correctamente las palabras de lengua de señas de Guatemala en las pruebas realizadas en tiempo real, con una precisión de 0.8802, una sensibilidad de 0.9685 y una puntuación F1 de 0.9706.
+Adicional a esto, se creó un proyecto de código abierto en GitHub, el cual promueve el desarrollo de futuras investigaciones en el campo del reconocimiento de lengua de señas.
+
+Adicional al objetivo principal, se plantearon varios objetivos específicos, la mayoría de los cuales se lograron.
+El primer objetivo específico era recolectar un conjunto de datos de lengua de señas de Guatemala, el cual se logró con la recolección de 960 videos de 32 palabras de la lengua de señas de Guatemala.
+El segundo objetivo específico era preprocesar el conjunto de datos, el cual se logró con la edición, el etiquetado manual de los videos y la extracción de los fotogramas de los videos.
+El tercer objetivo específico era crear un sistema con la capacidad de reconocer los puntos clave de las señas, el cual se logró con la implementación de aplicaciones de reconocimiento de lengua de señas en tiempo real.
+El cuarto objetivo específico era entrenar un modelo de reconocimiento de lengua de señas de Guatemala, el cual se logró con la implementación de un modelo de redes neuronales, el cual fue entrenado con el conjunto de datos recolectado.
+
+El quinto objetivo específico era diseñar un sistema de reconocimiento de lengua de señas de Guatemala en tiempo real, el cual fuera capaz de identificar el inicio y el fin de una seña, con el objetivo de reconocer múltiples palabras en un video.
+Este objetivo no se logró completamente, ya que el modelo no fue capaz de reconocer correctamente los gestos de lengua de señas en tiempo real cuando se presentaban múltiples palabras en un video.
+Debido a las limitaciones del modelo, el sistema no fue capaz de identificar correctamente el inicio y el fin de las señas, lo cual llevó a errores acumulativos en la clasificación de las señas.
+A pesar de esto, el proyecto logró cumplir con la mayoría de los objetivos planteados, y logró desarrollar un modelo de reconocimiento de lengua de señas de Guatemala en tiempo real.
+
+
+% Modulo de Chat
+\section{Procesamiento de lenguaje natural (GPT-3.5-Turbo)} 
+
+El proceso de \textit{fine-tuning} del modelo GPT-3.5-Turbo funcionó por dos razones principales. En primer lugar, se contó con el apoyo de intérpretes de LENSEGUA para la generación del \textit{dataset}, lo que garantizó que los datos reflejaran fielmente la gramática y las estructuras de LENSEGUA. La calidad y autenticidad de estos datos fue esencial para que el modelo capturara los matices del lenguaje, evitando interpretaciones inconsistentes o erróneas. Además, la cantidad de datos recopilados y la variación dentro del \textit{dataset} fue fundamental. Sin una muestra representativa y suficientemente diversa, el modelo no habría podido desarrollar la capacidad de interpretar tanto frases simples como complejas, ni hubiera aprendido a generalizar de forma efectiva en escenarios no vistos durante el entrenamiento.
+
+La optimización de hiperparámetros también fue importante para el éxito del \textit{fine-tuning}. A través de las diversas pruebas, se identificó que un entrenamiento con 2 \textit{epochs} proporcionaba el balance óptimo entre aprendizaje y generalización, evitando el sobreajuste que se observó con \textit{epochs} adicionales. Por ejemplo, con 3 \textit{epochs} se observó que el modelo comenzaba a memorizar patrones específicos en lugar de aprender reglas generales de la lengua. De manera similar, el \textit{learning rate multiplier} de 0.2 demostró ser ideal para permitir ajustes graduales en los pesos del modelo, garantizando un aprendizaje estable y progresivo. Este valor contrastó significativamente con pruebas realizadas con valores más altos (como 2.0), los cuales generaban actualizaciones demasiado bruscas que impedían una convergencia adecuada del modelo.
+
+La efectividad del \textit{fine-tuning} se pudo validar mediante el análisis LIME, el cual reveló cambios significativos en la forma en que el modelo procesaba elementos lingüísticos clave de LENSEGUA. Más específicamente, este análisis demostró que el modelo \textit{fine-tuneado} logró aprender a interpretar palabras contextuales específicas que, aunque no deben aparecer explícitamente en las interpretaciones finales, son esenciales para la comprensión del mensaje en LENSEGUA, como “pregunta”, “futuro” y “pasado”. Estas palabras cumplen un rol único, porque representan conceptos que en el español estándar se comunican mediante el uso de signos de interrogación o conjugaciones verbales.
+
+El análisis mostró que el modelo estándar asignaba puntuaciones de importancia negativas o muy bajas a estas palabras. Por ejemplo, “pregunta” recibió un valor de -0.09, “futuro” -0.04 y “pasado” 0.08. Estos resultados sugieren que el modelo percibía estas palabras como elementos disruptivos para la interpretación. Esta percepción errónea puede atribuirse a que el modelo GPT-3.5 original no fue entrenado específicamente para trabajar con las estructuras lingüísticas de LENSEGUA. Por lo tanto, el modelo estándar simplemente intentaba acoplar todas las palabras disponibles para generar una oración coherente en español, añadiendo conectores, preposiciones, artículos y otros elementos típicos de la gramática estándar. Sin embargo, al operar de esta manera, el modelo no lograba capturar el significado implícito que estas palabras tienen en LENSEGUA.
+
+En contraste, el modelo adaptado mediante \textit{fine-tuning} demostró un cambio significativo en la forma de interpretar estas palabras, asignando valores positivos a “pregunta” (0.09), “futuro” (0.09) y “pasado” (0.24). Esto evidencia que el modelo aprendió a reconocer la relevancia de estos términos en la construcción de interpretaciones coherentes en el contexto de LENSEGUA, lo cual fue fundamental para garantizar interpretaciones alineadas con el significado original.
+
+El refinamiento iterativo de los \textit{prompts} también fue fundamental para optimizar el desempeño del modelo \textit{fine-tuneado}. Esto debido a que, en primer lugar, se desarrollaron instrucciones más específicas y detalladas que explicaban claramente al modelo cómo debía procesar las estructuras gramaticales de LENSEGUA. Se establecieron formatos precisos para las respuestas esperadas, definiendo exactamente cómo debían estructurarse las interpretaciones y qué elementos debían incluirse o excluirse. Por ejemplo, se especificó que ciertos marcadores gramaticales, como “pregunta”, no debían aparecer en la interpretación final, sino que debían usarse como guías para ajustar la estructura de la oración resultante.
+
+La efectividad de estas mejoras en los \textit{prompts} se comprobó mediante el análisis de las distancias de Levenshtein, una métrica que mide cuántas ediciones se necesitan para convertir una interpretación generada por el modelo en una interpretación de referencia establecida. En este caso, un valor menor indica mayor similitud y, por lo tanto, mejor rendimiento del modelo. Con la primera versión del \textit{prompt}, el modelo \textit{fine-tuneado} ya mostraba un rendimiento superior al modelo estándar, con una distancia promedio de 5.815 frente a 10.065, lo que representa una mejora inicial del 42.23\%. Esta diferencia significativa en el rendimiento base confirma que el proceso de \textit{fine-tuning} estableció una base sólida para la comprensión de las estructuras lingüísticas de LENSEGUA.
+
+Las iteraciones sucesivas en el diseño de los \textit{prompts} permitieron mejorar progresivamente el desempeño del modelo \textit{fine-tuneado}. En realidad, la versión final del \textit{prompt} logró reducir la distancia de Levenshtein promedio del modelo \textit{fine-tuneado} a 3.375, lo que representa una mejora del 41.96\% respecto a la primera versión. Esta reducción significativa demuestra que la especificación más precisa de las instrucciones permitió al modelo generar interpretaciones más cercanas a las referencias definidas. Cada iteración en el diseño de los \textit{prompts} aportó mayor claridad sobre cómo manejar casos específicos de la gramática de LENSEGUA, lo que se reflejó directamente en la calidad de las interpretaciones.
+
+Por otro lado, los resultados del modelo estándar no siguieron esta tendencia de mejora. De hecho, las métricas de este modelo se mantuvieron consistentemente elevadas con todos los \textit{prompts}. Entre la primera y la tercera versión del \textit{prompt}, la distancia promedio calculada solo disminuyó un 13.96\%. Más aún, de la tercera versión a la última, se observó un ligero aumento del 0.23\% en la distancia de Levenshtein promedio. Estos resultados indican que incluso las instrucciones más detalladas y estructuradas no pudieron compensar la falta de un entendimiento básico de las estructuras lingüísticas de LENSEGUA que proporciona el \textit{fine-tuning}. El \textit{prompt engineering} funciona mejor cuando el modelo ya tiene una comprensión fundamental del lenguaje, permitiendo que las instrucciones refinadas guíen y optimicen este conocimiento base.
+
+Los resultados de las encuestas realizadas con la comunidad sorda reafirmaron esta diferencia en el rendimiento. Los participantes mostraron una clara preferencia por las interpretaciones del modelo \textit{fine-tuneado}, destacando su coherencia y claridad. Este modelo logró captar matices específicas de la lengua, generando interpretaciones más acordes con las expectativas de los usuarios. En contraste, el modelo estándar se limitó a agregar conectores y preposiciones a las frases originales, produciendo oraciones gramaticalmente correctas pero que a menudo no transmitían adecuadamente la idea principal.
+
+Por ejemplo, la frase en LENSEGUA “ayer abuelo llamar tu pregunta” fue interpretada de manera muy diferente por ambos modelos. El modelo estándar de GPT-3.5-Turbo generó la interpretación “Ayer tu abuelo te llamó para preguntarte algo”, que recibió una puntuación promedio de 1.8 por parte de los usuarios. Aunque es gramaticalmente correcta, esta respuesta realmente no captó la esencia de la frase original. Por otro lado, el modelo \textit{fine-tuneado} interpretó la misma frase como “¿Ayer te llamó tu abuelo?”, obteniendo una puntuación promedio de 4.9. Esta interpretación no solo era más concisa, sino que también mantuvo la idea que se buscaba trasmitir.  
+
+La Tabla \ref{tab:R6} muestra evidencia adicional del impacto positivo del refinamiento de los \textit{prompts} en la efectividad del modelo \textit{fine-tuneado}. A medida que se ajustaron los \textit{prompts}, los participantes de la encuesta evaluaron las interpretaciones generadas para la frase “hospital yo necesitar ir ahora ojalá mucho carro no porque emergencia”. La primera versión del \textit{prompt} produjo una interpretación confusa, “Necesito ir al hospital ahora espero que haya muchos carros porque es una emergencia”, recibiendo una puntuación promedio de 1.4. En lugar de expresar que se esperaba que no hubiera tráfico, la interpretación resultante indicó lo opuesto, lo que distorsionó completamente el mensaje. Sin embargo, la versión final logró una interpretación precisa y contextualmente adecuada, alcanzando una puntuación máxima de 5.0.
+
+La interpretación final, “Necesito ir al hospital ahora mismo. Espero que no haya mucho tráfico porque es una emergencia”, no solo reflejó correctamente el significado original, sino que también trasmitió la urgencia del mensaje. Esta mejora sustancial se debe a que los últimos \textit{prompts} eran más completos e introdujeron aclaraciones específicas para abordar problemas detectados en las interpretaciones anteriores. Nuevamente, se incluyeron instrucciones detalladas sobre cómo manejar términos temporales, cómo interpretar correctamente las palabras clave, y cómo estructurar las interpretaciones finales de manera que transmitieran el tono y el contexto adecuados.
+
+En conclusión, este análisis demuestra que la combinación de \textit{fine-tuning} y \textit{prompt engineering} fue fundamental para enseñarle al modelo GPT-3.5-Turbo a interpretar este tipo de frases. Los resultados obtenidos confirman que la tarea mencionada era demasiado compleja para ser resuelta únicamente mediante \textit{prompt engineering}. Nuevamente, el modelo estándar, incluso con \textit{prompts} refinados, no logró generar interpretaciones satisfactorias consistentemente. Sin embargo, es importante destacar que el \textit{fine-tuning} por sí solo, sin un \textit{prompt} óptimo, aunque genera buenos resultados, tampoco alcanza el nivel máximo de rendimiento.
+
+
+
+
+
+% Modulo de LLaMA
+\section{Procesamiento de lenguaje natural (LLaMA)} 
+
+La implementación de LLaMa como intérprete de LENSEGUA fue efectiva, gracias al proceso iterativo de experimentación para encontrar la configuración óptima. Este proceso involucró tres mejoras: la implementación de \textit{early stopping}, la aplicación del estándar LoRA, y la decisión de asegurar que el proceso de \textit{fine-tuning} se realizara únicamente de manera supervisada.
+
+El \textit{early stopping} ayudó a prevenir el sobreajuste (\textit{overfitting}). En las primeras iteraciones, se observó que el modelo alcanzaba una métrica BLEU promedio de apenas 0.125, indicando interpretaciones deficientes. Este bajo rendimiento se debía a que el modelo, al continuar entrenando sin restricciones, comenzaba a memorizar en lugar de aprender patrones generalizables. La implementación de \textit{early stopping} permitió detener el entrenamiento en el punto óptimo, mejorando la métrica BLEU promedio a 0.21.
+
+Es importante señalar que, aunque la métrica BLEU proporciona un indicador útil del progreso del entrenamiento, presenta limitaciones significativas en su evaluación de las traducciones. BLEU es particularmente sensible al orden de las palabras y trata todos los \textit{tokens} con igual importancia, incluyendo elementos como signos de puntuación y capitalización. Esto significa que diferencias aparentemente menores pueden afectar significativamente la puntuación, aunque no alteren sustancialmente el significado de la traducción. Esta característica es especialmente relevante en el contexto de LENSEGUA, donde pueden existir múltiples formas válidas de expresar el mismo concepto.
+
+La aplicación del estándar LoRA, con un rango de 8 y un \textit{alpha} de 16, fue efectiva para la interpretación de frases que aplicaran la gramática de LENSEGUA. El rango de 8 resultó apropiado porque permite que el modelo se enfoque específicamente en la tarea de traducción sin necesidad de aprender conceptos adicionales. El \textit{alpha} de 16 proporcionó la escalabilidad necesaria para manejar los pesos de manera efectiva, permitiendo que el modelo identifique y utilice los \textit{tokens} apropiados sin cambios drásticos en presencia de \textit{tokens} únicos o diferentes.
+
+Un cambio significativo fue optar por realizar el proceso de \textit{fine-tuning} exclusivamente de manera supervisada. En las versiones anteriores, el modelo tenía la flexibilidad de elegir entre entrenamiento supervisado y no supervisado, lo cual resultaba problemático porque en el entrenamiento no supervisado, el modelo carecía de retroalimentación directa sobre las interpretaciones correctas esperadas. Al forzar el enfoque supervisado, se aseguró que cada ejemplo de entrenamiento tuviera una referencia clara, permitiendo que el modelo aprendiera directamente de ejemplos correctos y mejorando su capacidad de generar traducciones precisas.
+
+El análisis LIME del modelo LLaMa (versión 1) reveló una distribución notablemente uniforme de la importancia entre las palabras, con valores de influencia relativamente bajos y similares entre sí. Esta uniformidad sugería que el modelo inicial trataba todas las palabras con similar relevancia, sin distinguir efectivamente elementos como marcadores temporales o modificadores en las oraciones. Este comportamiento podría atribuirse a la forma en que los logits y la atención se distribuyen en el sistema de transformadores, especialmente en un modelo \textit{fine-tuneado} con LoRA. Aunque los valores de atención y los logits eran bajos, estos datos siguen siendo útiles para analizar cómo el modelo procesa el contexto y asigna importancia a las palabras. Sin embargo, en esta versión inicial, el modelo no lograba identificar con precisión las características lingüísticas clave necesarias para generar traducciones más precisas.
+
+La entrevista con la experta en LENSEGUA, quien otorgó una calificación de 9 sobre 10 a las traducciones, reveló que uno de los problemas más notables del primer modelo era su incapacidad para diferenciar correctamente entre oraciones en tiempo presente y pasado, así como para identificar cuándo una oración era una pregunta. Estas deficiencias resultaban en traducciones imprecisas que afectaban negativamente las métricas BLEU y evidenciaban una comprensión incompleta de las estructuras temporales y sintácticas fundamentales en LENSEGUA. Dichos errores se explican, en gran medida, por el tamaño limitado del \textit{dataset} original. Al contar con un conjunto de datos reducido, el modelo no tuvo acceso a suficientes ejemplos que le permitieran aprender las particularidades del lenguaje, lo que contribuyó a generar interpretaciones incorrectas.
+
+Esta situación llevó a la decisión de utilizar el \textit{dataset} desarrollado específicamente para el módulo de GPT-3.5-Turbo en un nuevo proceso de \textit{fine-tuning} del modelo LLaMa. Este \textit{dataset}, siendo ocho veces más grande y diseñado específicamente para traducción a LENSEGUA, resultó en una mejora significativa. La métrica BLEU se duplicó al comparar las versiones 1 y 2 del modelo LLaMa, evidenciando cómo un \textit{dataset} más comprehensivo y específico puede mejorar significativamente el rendimiento del modelo tras diferentes procesos de \textit{fine-tuning}.
+
+Para evaluar aún más el impacto del nuevo \textit{dataset}, se realizó un análisis comparativo entre LLaMa (versión 2) y GPT-3.5-Turbo, ambos entrenados con los mismos datos. Este análisis reveló diferencias notables en cómo cada modelo procesa y prioriza la información. GPT-3.5-Turbo logró una distancia de Levenshtein significativamente menor (3.375 comparado con 6.185 de LLaMa), sugiriendo una mejor capacidad para generar traducciones más precisas.
+
+Además, el análisis LIME de ambos modelos reveló una diferencia en el procesamiento lingüístico: mientras que LLaMa mantuvo una distribución uniforme de valores de influencia (generalmente entre 0.00 y 0.06), GPT-3.5-Turbo mostró una clara diferenciación en la importancia asignada a diferentes elementos lingüísticos. Por ejemplo, en la frase "pasado yo ir no", GPT-3.5-Turbo asignó una alta relevancia a "no" (0.44) y "pasado" (0.24), reconociendo la importancia de los marcadores temporales y la negación. En contraste, LLaMa asignó valores mucho más bajos y uniformes (0.00 para "pasado" y 0.02 para "no"), sugiriendo una menor capacidad para identificar la importancia relativa de estos elementos gramaticales.
+
+Esta diferencia en el procesamiento de elementos temporales y modificadores es relevante en el contexto de LENSEGUA, donde la temporalidad y los modificadores son necesarios para la correcta interpretación del mensaje. La capacidad de GPT-3.5-Turbo para asignar mayor relevancia a estos elementos explica en parte su mejor desempeño en las métricas de distancia de Levenshtein, ya que puede generar traducciones que capturan mejor estos aspectos del lenguaje de señas.
+
+A pesar de estas diferencias, LLaMa representa una alternativa viable, especialmente en situaciones donde los recursos computacionales son limitados. Los resultados sugieren que futuras mejoras podrían enfocarse en desarrollar mecanismos que permitan al modelo identificar y priorizar mejor los elementos lingüísticos, particularmente los marcadores temporales y modificadores contextuales que son necesarios en la lengua de señas.
+
+
+
+
+
+% Modulo de ingfrasturura de red
+\section{Infraestructura de red} 
+
+Durante el desarrollo del proyecto, se buscó crear una infraestructura robusta y segura para la gestión de datos y la implementación de modelos de inteligencia artificial. En esta sección, se presentan los resultados clave y los aprendizajes derivados de las distintas fases del proyecto, enfocándonos en la eficiencia, seguridad y rendimiento del servidor, así como en la accesibilidad y la virtualización.
+
+Durante la fase de implementación inicial, se configuraron tres máquinas virtuales, cada una diseñada para ejecutar modelos de inteligencia artificial y pruebas de carga. Este enfoque de virtualización demostró ser una solución efectiva para segmentar los entornos de desarrollo y producción, permitiendo un manejo más eficiente de los recursos computacionales. La utilización de herramientas como NGINX y Gunicorn en combinación con Flask para el backend resultó en una arquitectura capaz de soportar un alto volumen de solicitudes concurrentes, lo cual fue validado mediante pruebas de carga exhaustivas.
+
+Los resultados obtenidos en las pruebas de carga reflejaron un manejo eficiente de las solicitudes hasta un nivel de 400-500 usuarios concurrentes sin mayores problemas de rendimiento. Estas pruebas, ejecutadas a través de un entorno controlado, permitieron observar métricas clave como el tiempo de respuesta, la utilización de CPU y la carga del sistema. El uso de SQLAlchemy para la gestión de bases de datos optimizó el acceso y manejo de datos, asegurando una interacción fluida entre las APIs y el servidor. Las métricas de rendimiento mostraron un incremento progresivo en el uso de recursos bajo cargas más altas, lo que resalta la necesidad de futuras optimizaciones para escenarios de carga extrema.
+
+La prueba end-to-end (E2E) fue otra parte integral del proyecto, garantizando que el flujo completo de la aplicación funcionara como se esperaba. La prueba abarcó desde el registro de usuarios y la autenticación, hasta la interacción con funcionalidades avanzadas como el envío de videos y la gestión de traducciones. Los resultados indicaron un éxito del 100\%, demostrando que todos los módulos interactuaban correctamente y que la integridad de la aplicación estaba asegurada. Este éxito se tradujo en una validación de la funcionalidad y operatividad del sistema en condiciones reales de uso.
+
+En cuanto a la seguridad, se realizaron múltiples auditorías usando Lynis, una herramienta reconocida en el análisis de vulnerabilidades y configuración de sistemas Linux. Los resultados iniciales arrojaron un Hardening Index de 58, que fue mejorado a 62 tras realizar ajustes y optimizaciones en la configuración del servidor. Este índice demuestra que el servidor es seguro, aunque siempre hay margen para futuras mejoras. Es importante destacar que los resultados obtenidos fueron superiores a la meta establecida de un índice de 4.0 en la escala de CVE, lo que subraya el éxito en la implementación de medidas de seguridad sólidas.
+
+El proyecto enfrentó desafíos notables, especialmente en la obtención de accesos y permisos necesarios para la integración de la infraestructura con la red universitaria. La colaboración con el equipo de TI y la gestión de permisos resultaron ser procesos complejos y burocráticos, que demandaron una planificación y coordinación significativa. Estos obstáculos, sin embargo, resaltaron la importancia de prever estas gestiones con anticipación para futuros proyectos.
+
+En resumen, el desarrollo del servidor y su infraestructura demostró ser un éxito al cumplir con los objetivos de eficiencia, seguridad y accesibilidad. Las pruebas realizadas evidenciaron que el sistema puede soportar un alto volumen de carga y que sus componentes interactúan de manera efectiva. 
+
+
+
+
+
+
 % Modulo de diseño y desarrollo movil
-\section{Diseño y Desarollo Móvil}
+\section{Diseño y desarollo móvil}
 
 Durante la fase de investigación de mercado, se analizaron aplicaciones con funcionalidades similares a las que se querían implementar en ``Señas Chapinas''. No se encontró ninguna aplicación que estuviera enfocada en las necesidades y la cultura guatemalteca ni que utilizara LENSEGUA, lo que convierte a ``Señas Chapinas'' en una propuesta pionera en este ámbito. Esta investigación también permitió identificar funcionalidades clave a partir de los comentarios de usuarios, tales como la grabación de videos con indicadores de posición, el uso de tutoriales, la posibilidad de agregar a favoritos y la calificación de traducciones. Estas funcionalidades fueron adaptadas e implementadas en la aplicación, ajustándose al contexto cultural y comunicativo de los usuarios guatemaltecos. Además, se destacaron elementos de diseño relevantes, como la simplicidad de la interfaz, una paleta de colores atractiva y botones descriptivos sin exceso de texto. Estas características fueron aplicadas cuidadosamente en la fase de diseño y se pueden observar en la versión final de la aplicación.
 
@@ -30,44 +199,4 @@ La aprobación de Google fue un momento crucial, ya que permitió llevar a cabo 
 
 
 
-% Modulo de ingfrasturura de red
-\section{Infraestructura de red} 
 
-Durante el desarrollo del proyecto, se buscó crear una infraestructura robusta y segura para la gestión de datos y la implementación de modelos de inteligencia artificial. En esta sección, se presentan los resultados clave y los aprendizajes derivados de las distintas fases del proyecto, enfocándonos en la eficiencia, seguridad y rendimiento del servidor, así como en la accesibilidad y la virtualización.
-
-Durante la fase de implementación inicial, se configuraron tres máquinas virtuales, cada una diseñada para ejecutar modelos de inteligencia artificial y pruebas de carga. Este enfoque de virtualización demostró ser una solución efectiva para segmentar los entornos de desarrollo y producción, permitiendo un manejo más eficiente de los recursos computacionales. La utilización de herramientas como NGINX y Gunicorn en combinación con Flask para el backend resultó en una arquitectura capaz de soportar un alto volumen de solicitudes concurrentes, lo cual fue validado mediante pruebas de carga exhaustivas.
-
-Los resultados obtenidos en las pruebas de carga reflejaron un manejo eficiente de las solicitudes hasta un nivel de 400-500 usuarios concurrentes sin mayores problemas de rendimiento. Estas pruebas, ejecutadas a través de un entorno controlado, permitieron observar métricas clave como el tiempo de respuesta, la utilización de CPU y la carga del sistema. El uso de SQLAlchemy para la gestión de bases de datos optimizó el acceso y manejo de datos, asegurando una interacción fluida entre las APIs y el servidor. Las métricas de rendimiento mostraron un incremento progresivo en el uso de recursos bajo cargas más altas, lo que resalta la necesidad de futuras optimizaciones para escenarios de carga extrema.
-
-La prueba end-to-end (E2E) fue otra parte integral del proyecto, garantizando que el flujo completo de la aplicación funcionara como se esperaba. La prueba abarcó desde el registro de usuarios y la autenticación, hasta la interacción con funcionalidades avanzadas como el envío de videos y la gestión de traducciones. Los resultados indicaron un éxito del 100\%, demostrando que todos los módulos interactuaban correctamente y que la integridad de la aplicación estaba asegurada. Este éxito se tradujo en una validación de la funcionalidad y operatividad del sistema en condiciones reales de uso.
-
-En cuanto a la seguridad, se realizaron múltiples auditorías usando Lynis, una herramienta reconocida en el análisis de vulnerabilidades y configuración de sistemas Linux. Los resultados iniciales arrojaron un ``Hardening Index'' de 58, que fue mejorado a 62 tras realizar ajustes y optimizaciones en la configuración del servidor. Este índice demuestra que el servidor es seguro, aunque siempre hay margen para futuras mejoras. Es importante destacar que los resultados obtenidos fueron superiores a la meta establecida de un índice de 4.0 en la escala de CVE, lo que subraya el éxito en la implementación de medidas de seguridad sólidas.
-
-En cuanto a la seguridad, se realizaron múltiples auditorías utilizando Lynis, los resultados finales arrojaron un Hardening Index de 62, superando significativamente la meta inicial de 40, definida como un nivel adecuado para garantizar medidas de seguridad básicas. Es importante mencionar que este índice se obtuvo utilizando la configuración básica de Lynis, sin personalizar reglas ni omitir áreas de evaluación. Esto asegura que los resultados reflejen una auditoría rigurosa e integral del sistema, incluyendo configuraciones críticas que necesitaron atención. Si bien siempre hay margen para futuras mejoras, el puntaje alcanzado demuestra que el sistema implementó medidas de seguridad robustas, alineadas con los objetivos del proyecto y los estándares recomendados por Linux Audit.
-
-El proyecto enfrentó desafíos notables, especialmente en la obtención de accesos y permisos necesarios para la integración de la infraestructura con la red universitaria. La colaboración con el equipo de TI y la gestión de permisos resultaron ser procesos complejos y burocráticos, que demandaron una planificación y coordinación significativa. Estos obstáculos, sin embargo, resaltaron la importancia de prever estas gestiones con anticipación para futuros proyectos.
-
-En resumen, el desarrollo del servidor y su infraestructura demostró ser un éxito al cumplir con los objetivos de eficiencia, seguridad y accesibilidad. Las pruebas realizadas evidenciaron que el sistema puede soportar un alto volumen de carga y que sus componentes interactúan de manera efectiva. 
-
-
-
-% Modulo de vision por computadora
-\section{Infraestructura de red} 
-
-
-
-
-
-
-
-% Modulo de Chat
-\section{Infraestructura de red} 
-
-
-
-
-
-
-
-% Modulo de Lamda
-\section{Infraestructura de red} 

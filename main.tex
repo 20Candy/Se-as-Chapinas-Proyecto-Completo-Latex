@@ -4,7 +4,19 @@
 \usepackage[spanish,mexico]{babel}
 \selectlanguage{spanish}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage{fontenc}
+\usepackage{tabularx}
+\usepackage[table,xcdraw]{xcolor} % Add this line to enable row coloring
+\usepackage{enumitem}
+\usepackage{pdfpages}
+
+
+\usepackage[calcwidth]{titlesec}
+
+\titleformat{\paragraph}[block]{\normalfont{\normalsize}}{\theparagraph.}{1em}{}[\titleline*{\titlerule}]%
+\titlespacing*{\paragraph}{0pt}{\baselineskip}{0.75\baselineskip}
+
+
 
 \title{Plantilla para Trabajos de Graduación UVG}
 \author{MSc. Miguel Zea}
@@ -28,30 +40,38 @@
 \usepackage{amsfonts}
 \usepackage{mathtools}
 \usepackage{graphicx}
+\usepackage{tcolorbox}
 \usepackage{xfrac}
 \usepackage{float}
 \usepackage{mathtools}
-\usepackage{tabularx}
-\usepackage[table,xcdraw]{xcolor}
 \usepackage[hypertexnames=false]{hyperref}
 % \usepackage{bookmark}
-\usepackage{listings}
-\usepackage{pdfpages}
 \usepackage{subcaption}
 \usepackage{babelbib}
-\usepackage[bottom]{footmisc}
 \ifdefined\usarAPA 
 	\usepackage{apacite} 
 \fi
 \usepackage[percent]{overpic}
 
-\ifdefined\CAPglosario
-	\usepackage[toc]{glossaries}
-	\makeglossaries
-    \input{glosario}
-\fi
+%\hypersetup{hidelinks}
+
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small, % Estilo básico del texto (monoespaciado, tamaño pequeño)
+    frame=single,               % Añade un borde alrededor del código
+    breaklines=true,            % Permite la división de líneas largas
+    backgroundcolor=\color{gray!10}, % Fondo gris claro
+    keywordstyle=\color{blue},  % Color para las palabras clave
+    morekeywords={messages, role, system, content}, % Define palabras clave adicionales
+    numbers=left,               % Añade numeración de líneas a la izquierda
+    numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+    escapeinside={(*@}{@*)}     % Permite usar LaTeX dentro del código
+}
 
 
+
+
+\renewcommand{\tablename}{Tabla}
 
 % ================================================================================
 % MÁRGENES Y FORMATO GENERALES
@@ -67,6 +87,15 @@
 	{\setlength{\parskip}{2ex}
     \input{#1}}
 }
+
+
+\counterwithout{figure}{chapter} % Esto evita que las figuras se reinicien
+\counterwithout{table}{chapter}  % Esto evita que las tablas se reinicien
+
+\renewcommand{\tablename}{Cuadro}
+
+
+
 \ifdefined\capsecuvg
 	\renewcommand\thechapter{\Roman{chapter}}
     \renewcommand\thesection{\Alph{section}}
@@ -81,8 +110,9 @@
 % ================================================================================
 % CUERPO DEL TRABAJO
 % ================================================================================
-\pagestyle{headings}
+\pagestyle{plain}
 \begin{document}
+
 % ================================================================================
 % PORTADA
 % ================================================================================
@@ -93,13 +123,16 @@
 	\pagecolor{uvg-green}
 	\thispagestyle{empty}
 
+    \begin{center}
 	\color{white}
 	\noindent \hrulefill \par
 	\vspace{0.1in}
 	\noindent \Huge \titulotesis \par
 	\noindent \hrulefill \par
-	\noindent
-	\LARGE \nombreestudiante
+    
+    \vspace{0.1in}
+	\Large \nombreestudiante
+    \end{center}
 
 	\begin{figure}[b!]
     	%\makebox[\textwidth]{\includegraphics[height=13.25cm]{plantilla/portadacit.jpg}}
@@ -147,12 +180,11 @@
 	\begin{center}
 		\LARGE \textbf{\titulotesis} 
 		\vfill
-		\vfill
-		\Large Trabajo de graduación en modalidad megaproyecto tecnológico presentado por \\
-		\vfill
-            \Large \textbf{\nombreestudiante} \\
-            \vfill
-		\Large Para optar al grado académico de Licenciada en \uvgcarrera \\
+		\Large Trabajo de graduación en modalidad de Megaproyecto Tecnológico presentado por \\
+        \vspace{0.1in}
+        \Large \nombreestudiante \\
+        \vspace{0.1in}
+		\Large Para optar al grado académico de Licenciado en \uvgcarrera \\
 		\vfill
 		\large Guatemala, \mesentrega del \anoentrega
 	\end{center}
@@ -185,9 +217,8 @@
 		(f) \rule[1pt]{4 in}{1pt}\\
 		\nombreprimerex \\[1in]
 		(f) \rule[1pt]{4 in}{1pt}\\
-		\nombresegundoex
+		\nombresegundoex\\[1in]
 	\end{center}
-	\vspace{1in}
 
 	Fecha de aprobación: \fechaaprobacion.
 	\normalsize
@@ -314,23 +345,6 @@
 	\fi
 \fi
 
-% OBJETIVOS
-% --------------------------------------------------------------------------------
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\newpage
-
-\ifdefined\CAPobjetivos
-	\newpage
-	\chapter{Objetivos}
-	\ifdefined\parpordefecto
-		\defaultparformat{objetivos}
-	\else
-		\input{objetivos}
-	\fi
-\fi
-
 % JUSTIFICACIÓN
 % --------------------------------------------------------------------------------
 \newpage
@@ -345,6 +359,23 @@
 		\defaultparformat{justificacion}
 	\else
 		\input{justificacion}
+	\fi
+\fi
+
+% OBJETIVOS
+% --------------------------------------------------------------------------------
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+
+\ifdefined\CAPobjetivos
+	\newpage
+	\chapter{Objetivos}
+	\ifdefined\parpordefecto
+		\defaultparformat{objetivos}
+	\else
+		\input{objetivos}
 	\fi
 \fi
 
@@ -427,10 +458,6 @@
 
 % RECOMENDACIONES
 % --------------------------------------------------------------------------------
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\newpage  
 
 \ifdefined\CAPrecomendaciones
 	\newpage

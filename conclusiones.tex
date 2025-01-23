@@ -1,27 +1,20 @@
-El desarrollo de la aplicación ``Señas Chapinas''  alcanzó el objetivo general de desarrollar una herramienta tecnológica para dispositivos Android que traduce la lengua de señas guatemalteca (LENSEGUA) a texto en español. Representantes de la comunidad sorda indican que este proyecto logrará eliminar barreras de comunicación significativas de manera gradual, fomentando la inclusión social, educativa y laboral de las personas sordas en Guatemala.
+\begin{itemize}
 
-    % MODULO DE DISEÑO =====
-    \section{Diseño y Desarrollo de la aplicación} 
-    Se realizaron investigaciones de mercado e entrevistas con usuarios finales para identificar las necesidades específicas de la comunidad sorda en Guatemala, lo que permitió desarrollar perfiles detallados e integrar estas necesidades en flujos de usuario intuitivos. Con un enfoque estándar de UX/UI y retroalimentación constante, se diseñó una interfaz atractiva, accesible e intuitiva, adaptada a las expectativas de los usuarios. En cuanto al desarrollo técnico, se implementó exitosamente una aplicación Android con arquitectura escalable, integrando servicios externos para traducir la lengua de señas guatemalteca (LENSEGUA) a texto en español, cumpliendo el objetivo de facilitar la interacción entre personas sordas y oyentes.
+\item El objetivo principal del proyecto, que consistía en diseñar y desarrollar la aplicación \textit{Señas Chapinas}, fue alcanzado con éxito. La aplicación para dispositivos Android ha demostrado ser capaz de traducir la lengua de señas guatemalteca (LENSEGUA) a texto gramaticalmente correcto en español, utilizando modelos avanzados de visión por computadora y procesamiento de lenguaje natural. Además, se implementó una infraestructura de red segura y eficiente, lo que garantiza la correcta operación de la aplicación y su capacidad para ofrecer traducciones precisas.
 
+% MODULO DE VISION POR COMPUTADORA ====
+\item A través de un proceso iterativo de recolección de datos, modelado y evaluación, se logró un modelo final que presenta una precisión de 0.8802, una sensibilidad de 0.9685 y un F1 de 0.9706, lo cual indica un desempeño aceptable en la clasificación de gestos de lengua de señas en tiempo real. A pesar de estos logros, el modelo enfrenta limitaciones significativas, especialmente en su capacidad para reconocer correctamente múltiples palabras en un solo video. Estas limitaciones se derivan en gran medida del desbalance en el conjunto de datos y de la dificultad en la identificación del inicio y fin de las señas. La implementación exitosa del modelo en una aplicación de reconocimiento de lengua de señas de Guatemala y en un API muestra el potencial de esta tecnología para facilitar la comunicación y promover la inclusión de las personas sordas en diferentes contextos. 
+    
+% MODULO DE CHATPGPT ====
+\item El objetivo de adaptar el modelo GPT-3.5-Turbo para asimilar la gramática de LENSEGUA se cumplió satisfactoriamente. El modelo \textit{fine-tuneado} demostró una capacidad significativamente mejorada para analizar oraciones en LENSEGUA e interpretarlas correctamente al español. Por ejemplo, mientras que las interpretaciones del modelo estándar presentaron una distancia de Levenshtein promedio de 10.065, las del modelo \textit{fine-tuneado} lograron obtener una distancia promedio de 5.815, lo que refleja una mejora del 42.23\%. Además, los resultados de la encuesta, realizados con la participación de personas sordas e intérpretes, confirmaron el éxito de esta adaptación, ya que las interpretaciones del modelo \textit{fine-tuneado} obtuvieron una calificación promedio de 4.74 (en una escala de 1 a 5) en comparación con las del modelo estándar, que solo alcanzaron un 2.36.
+    
+% MODULO DE LAMDA ====
+\item Se desarrolló una herramienta basada en LLaMA que era capaz de comprender la gramática de LENSEGUA y generar interpretaciones coherentes en español a partir de oraciones estructuradas en dicha gramática. Esta herramienta fue inicialmente entrenada utilizando un conjunto de datos reducido, el cual, debido a su tamaño limitado, no consideraba muchas de las características y características propias de LENSEGUA. Como resultado, la primera versión del modelo presentó un rendimiento modesto, con un BLEU promedio de 0.2894. No obstante, al ampliar el conjunto de datos con ejemplos más representativos de LENSEGUA, la segunda versión del modelo mostró una mejora significativa, logrando un valor BLEU promedio de 0.632. Este cambio reflejó una mayor capacidad del modelo para captar las sutilezas y estructuras propias de LENSEGUA, permitiendo obtener interpretaciones más precisas.
 
+% MODULO DE ARQUITECTURA DE RED ===
+\item En este proyecto se implementó un servidor robusto y eficiente que administra datos de manera segura, con configuraciones optimizadas para la ejecución de modelos de inteligencia artificial y visión por computadora en tres máquinas virtuales. Herramientas como Lynis garantizaron un nivel de seguridad elevado, alcanzando un puntaje de 6.2 en la escala CVE. Las configuraciones incluyeron apertura de puertos y scripts automatizados para el despliegue de modelos de IA y APIs, facilitando pruebas y actualizaciones. Las pruebas de carga demostraron un rendimiento sólido incluso bajo alta demanda, gracias a la integración de Gunicorn, Nginx y SQLAlchemy, asegurando estabilidad y eficiencia. Este entorno virtual controlado y seguro permite a los usuarios desarrollar y desplegar aplicaciones avanzadas con confianza.
 
-    % MODULO DE ARQUITECTURA DE RED ===
-    \section{Infraestructura de red estable y segura} 
-    En este proyecto se implementó un servidor robusto y eficiente que administra datos de manera segura, con configuraciones optimizadas para la ejecución de modelos de inteligencia artificial y visión por computadora en tres máquinas virtuales. Herramientas como Lynis garantizaron un nivel de seguridad elevado, alcanzando un puntaje de 6.2 en la escala CVE. Las configuraciones incluyeron apertura de puertos y scripts automatizados para el despliegue de modelos de IA y APIs, facilitando pruebas y actualizaciones. Las pruebas de carga demostraron un rendimiento sólido incluso bajo alta demanda, gracias a la integración de Gunicorn, Nginx y SQLAlchemy, asegurando estabilidad y eficiencia. Este entorno virtual controlado y seguro permite a los usuarios desarrollar y desplegar aplicaciones avanzadas con confianza.
+% MODULO DE DISEÑO =====
+\item Se realizaron investigaciones de mercado e entrevistas con usuarios finales para identificar las necesidades específicas de la comunidad sorda en Guatemala, lo que permitió desarrollar perfiles detallados e integrar estas necesidades en flujos de usuario intuitivos. Con un enfoque estándar de UX/UI y retroalimentación constante, se diseñó una interfaz atractiva, accesible e intuitiva, adaptada a las expectativas de los usuarios. En cuanto al desarrollo técnico, se implementó exitosamente una aplicación Android con arquitectura escalable, integrando servicios externos para traducir LENSEGUA a texto gramaticalmente correcto en español, cumpliendo el objetivo de facilitar la interacción entre personas sordas y oyentes.
 
-
-    % MODULO DE VISION POR COMPUTADORA ====
-    
-    
-    
-    
-    
-    % MODULO DE CHATPGPT ====
-    
-    
-    
-    
-    
-    % MODULO DE LAMDA ====
-        
+\end{itemize}

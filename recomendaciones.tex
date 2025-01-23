@@ -1,31 +1,57 @@
 
-Tras la culminación del desarrollo de la aplicación ``Señas Chapinas'', se proponen una serie de recomendaciones para continuar optimizando su funcionalidad y aumentar su alcance. Estas recomendaciones están diseñadas para mejorar la experiencia del usuario, expandir las capacidades de la aplicación y asegurar su sostenibilidad a largo plazo.
+Tras la culminación del desarrollo de la aplicación \textit{Señas Chapinas}, se proponen una serie de recomendaciones para continuar optimizando su funcionalidad y aumentar su alcance. Estas recomendaciones están diseñadas para mejorar la experiencia del usuario, expandir las capacidades de la aplicación y asegurar su sostenibilidad a largo plazo.
 
 \begin{enumerate}
-    \item \textbf{Ampliar el número de palabras en el diccionario y en el reto diario:} 
-    Para incrementar la utilidad de la aplicación, es esencial expandir el número de palabras disponibles en el diccionario, lo cual permitirá a los usuarios acceder a un repertorio más amplio para la traducción y el aprendizaje. Esto también mejoraría la funcionalidad del reto diario, proporcionando una mayor variedad de términos y enriqueciendo la experiencia de los usuarios al interactuar constantemente con nuevas palabras.
 
-    \item \textbf{Contratar un diseñador gráfico para la creación de imágenes coherentes con el diseño de la aplicación:} 
-    Es recomendable contratar a un diseñador gráfico que desarrolle las imágenes del diccionario, asegurando que sigan la misma línea estética que el resto de la aplicación. Esto no solo mejorará la funcionalidad del diccionario, sino que también elevará la experiencia visual de los usuarios, presentando imágenes claras, atractivas y alineadas con la identidad visual de la aplicación.
-
-    \item \textbf{Implementar opciones de inicio de sesión con Google, Facebook, entre otros:} 
-    La incorporación de opciones de inicio de sesión a través de plataformas populares como Google o Facebook facilitará el acceso de los usuarios, simplificando el proceso de registro y reduciendo las barreras para nuevos usuarios. Esta funcionalidad no solo mejorará la usabilidad de la aplicación, sino que también podría incrementar la tasa de adopción de la aplicación.
-
-    \item \textbf{Incorporar la traducción inversa de español a LENSEGUA:} 
-    Para hacer la aplicación más completa, se recomienda implementar la traducción inversa, permitiendo a los usuarios traducir texto de español a LENSEGUA. Esta funcionalidad expandiría significativamente las posibilidades de la aplicación, facilitando que las personas oyentes aprendan y utilicen LENSEGUA de manera más práctica y efectiva.
-
-    \item \textbf{Expandir la aplicación a sistemas iOS:} 
-    Para aumentar el alcance de la aplicación, sería recomendable desarrollar una versión para dispositivos iOS. Esta ampliación permitiría a usuarios de la plataforma de Apple beneficiarse de las funcionalidades de la aplicación, logrando un mayor impacto y accesibilidad para personas sordas y oyentes en un rango más amplio de dispositivos.
-
-    \item \textbf{Optimización de la virtualización del ambiente de desarrollo}: Actualmente, el proyecto utiliza un entorno virtualizado mediante contenedores para aislar y gestionar cada módulo o modelo de inteligencia artificial. Sin embargo, se pueden realizar mejoras adicionales, como la configuración avanzada de redes virtuales para facilitar la comunicación segura entre contenedores y el uso de herramientas como Terraform para la gestión de infraestructura como código, permitiendo una replicación más eficiente del entorno.
-
-    \item \textbf{Refinamiento del uso de entidades ORM para bases de datos}: El proyecto integra un sistema de mapeo objeto-relacional (ORM) con SQLAlchemy, permitiendo una interacción estructurada y eficiente con la base de datos. No obstante, sería valioso explorar configuraciones avanzadas, como la implementación de estrategias de particionamiento horizontal en bases de datos para manejar grandes volúmenes de datos, y el uso de migraciones automatizadas con Alembic para garantizar la coherencia de esquemas durante actualizaciones.
-
-    \item \textbf{Fortalecimiento del sistema de monitoreo y notificaciones}: Actualmente, el sistema cuenta con un monitoreo continuo utilizando herramientas como NGINX Amplify. A pesar de ello, podrían implementarse mejoras como la integración con Prometheus y Grafana para un análisis más profundo de métricas personalizadas y alertas basadas en patrones de uso. También es recomendable configurar un sistema de balanceo de carga dinámico que permita escalar en función de las métricas recolectadas.
-
-    \item \textbf{Avance en la seguridad y el rendimiento del sistema}: Se han tomado medidas significativas para asegurar y optimizar el sistema mediante configuraciones avanzadas de NGINX y Gunicorn. No obstante, la habilitación de HTTP/2 para mejorar el rendimiento de la transferencia de datos y la integración de autenticación mTLS para comunicaciones internas son pasos adicionales que pueden aumentar el nivel de seguridad y rendimiento. Además, la implementación de pruebas de carga automatizadas con herramientas como Locust puede ayudar a evaluar la robustez del sistema frente a escenarios extremos.
-
-    \item \textbf{Optimización en la implementación y configuración de Lynis}: Aunque Lynis ya ha demostrado ser una herramienta confiable para la auditoría de seguridad del sistema, se recomienda explorar configuraciones avanzadas que permitan adaptar su funcionamiento a las necesidades específicas del proyecto. Esto incluye la posibilidad de personalizar reglas para ignorar aspectos no relevantes en el entorno evaluado y priorizar áreas críticas mediante configuraciones específicas. Además, se sugiere establecer un ciclo de auditorías periódicas para identificar y mitigar nuevas vulnerabilidades, acompañado de un proceso de actualización continua de las configuraciones de seguridad. La flexibilidad de Lynis también permite ajustar el índice de fortalecimiento para optimizar su utilidad, alineándolo con los objetivos y prioridades del sistema. Según CIS Benchmarks, personalizar herramientas de auditoría es una práctica estándar que asegura la relevancia y precisión de las evaluaciones, permitiendo consolidar medidas robustas y prácticas de seguridad eficientes para entornos en evolución.
+% MODULO DE VISION POR COMPUTADORA ====
     
+\item Para mejorar el desempeño del modelo de visión por computadora, se recomienda realizar una recolección de datos más equilibrada, teniendo en cuenta la duración de las señas. Además, asegurarse de que cada clase tenga un número similar de fotogramas en el conjunto de datos puede ayudar a mitigar el problema del desbalance y mejorar la capacidad del modelo para reconocer gestos de clases minoritarias.
+
+\item Se sugiere ampliar el conjunto de videos con más ejemplos de cada palabra, especialmente para las que presentan una mayor confusión en el modelo. Esto puede incluir la recopilación de más videos de señas en diferentes contextos y variaciones para aumentar la diversidad y robustez del conjunto de datos.
+
+\item Se recomienda explorar técnicas alternativas para identificar el inicio y fin de las señas en los videos, como el uso de una segunda red neuronal para detectar estos puntos clave.
+
+\item Implementar técnicas de aumento de datos, como la rotación, la variación en la iluminación y la manipulación de la velocidad de los videos, puede ayudar a mejorar la generalización del modelo al introducir variaciones en los gestos que el modelo debe aprender a reconocer.
+
+\item Crear videos en diferentes entornos y condiciones, como diferentes ángulos, iluminación y antecedentes, puede proporcionar un desempeño más robusto del modelo y permitir su adaptación a situaciones de la vida real.
+
+% MODULO DE CHATPGPT  y LLAMA ====
+    
+\item Se recomienda buscar el apoyo de diversas asociaciones que trabajen con la comunidad sorda en Guatemala, además de ASEDES, para la elaboración de más frases representativas que apliquen la gramática de LENSEGUA. Dado que existen variaciones regionales de LENSEGUA, la inclusión de múltiples perspectivas enriquecería el conjunto de datos usado por los modelos de procesamiento de lenguaje natural, y garantizaría una representación más completa de la gramática y vocabulario utilizado.
+
+\item Se recomienda ampliar el conjunto de datos para incluir frases más complejas y largas, así como párrafos completos. Esto permitiría que los modelos de procesamiento de lenguaje natural estén expuestos a una mayor diversidad de estructuras lingüísticas, asegurando que sean capaces de interpretar frases más elaboradas.
+
+\item Se recomienda evaluar el uso de modelos más actualizados, como GPT-4o, para realizar el proceso de \textit{fine-tuning}. Este modelo podría ofrecer mejoras significativas en la calidad de las interpretaciones debido a su entrenamiento con un \textit{corpus} más amplio, así como optimizaciones en su arquitectura que le permiten gestionar de manera más eficiente tareas complejas. 
+
+\item Se recomienda continuar explorando técnicas de \textit{prompt engineering} para mejorar aún más las interpretaciones del modelo GPT-3.5-Turbo. Si bien esta técnica ya permitió desarrollar \textit{prompts} más avanzados que incrementaron la precisión del modelo \textit{fine-tuneado}, es posible que ajustes adicionales optimicen aún más los resultados. Además, se sugiere probar el uso exclusivo de \textit{prompt engineering} con modelos más recientes, como GPT-4o, para evaluar si esta combinación permite generar interpretaciones correctas sin necesidad de un \textit{fine-tuning} específico.
+
+\item Se recomienda implementar prácticas de MLOps que permitan evaluar periódicamente el rendimiento de los modelos de procesamiento de lenguaje natural. Esto incluiría procesos automatizados para monitorear la calidad de las predicciones generadas y, en caso de que el rendimiento de un modelo disminuya, activar un \textit{pipeline} de re-entrenamiento o ajuste del modelo para mantener su efectividad a lo largo del tiempo.
+
+
+% MODULO DE ARQUITECTURA DE RED ===
+    \item Se han tomado medidas significativas para asegurar y optimizar el sistema mediante configuraciones avanzadas de NGINX y Gunicorn. No obstante, la habilitación de HTTP/2 para mejorar el rendimiento de la transferencia de datos y la integración de autenticación mTLS para comunicaciones internas son pasos adicionales que pueden aumentar el nivel de seguridad y rendimiento. Además, la implementación de pruebas de carga automatizadas con herramientas como Locust puede ayudar a evaluar la robustez del sistema frente a escenarios extremos.
+
+    \item Aunque Lynis ya ha demostrado ser una herramienta confiable para la auditoría de seguridad del sistema, se recomienda explorar configuraciones avanzadas que permitan adaptar su funcionamiento a las necesidades específicas del proyecto. Esto incluye la posibilidad de personalizar reglas para ignorar aspectos no relevantes en el entorno evaluado y priorizar áreas críticas mediante configuraciones específicas. Además, se sugiere establecer un ciclo de auditorías periódicas para identificar y mitigar nuevas vulnerabilidades, acompañado de un proceso de actualización continua de las configuraciones de seguridad. La flexibilidad de Lynis también permite ajustar el índice de fortalecimiento para optimizar su utilidad, alineándolo con los objetivos y prioridades del sistema. Según CIS Benchmarks, personalizar herramientas de auditoría es una práctica estándar que asegura la relevancia y precisión de las evaluaciones, permitiendo consolidar medidas robustas y prácticas de seguridad eficientes para entornos en evolución.
+
+    \item Actualmente, el proyecto utiliza un entorno virtualizado mediante contenedores para aislar y gestionar cada módulo o modelo de inteligencia artificial. Sin embargo, se pueden realizar mejoras adicionales, como la configuración avanzada de redes virtuales para facilitar la comunicación segura entre contenedores y el uso de herramientas como Terraform para la gestión de infraestructura como código, permitiendo una replicación más eficiente del entorno.
+
+    \item El proyecto integra un sistema de mapeo objeto-relacional (ORM) con SQLAlchemy, permitiendo una interacción estructurada y eficiente con la base de datos. No obstante, sería valioso explorar configuraciones avanzadas, como la implementación de estrategias de particionamiento horizontal en bases de datos para manejar grandes volúmenes de datos, y el uso de migraciones automatizadas con Alembic para garantizar la coherencia de esquemas durante actualizaciones.
+
+    \item Actualmente, el sistema cuenta con un monitoreo continuo utilizando herramientas como NGINX Amplify. A pesar de ello, podrían implementarse mejoras como la integración con Prometheus y Grafana para un análisis más profundo de métricas personalizadas y alertas basadas en patrones de uso. También es recomendable configurar un sistema de balanceo de carga dinámico que permita escalar en función de las métricas recolectadas.
+
+% MODULO DE DISEÑO =====
+    \item Para incrementar la utilidad de la aplicación, es esencial expandir el número de palabras disponibles en el diccionario, lo cual permitirá a los usuarios acceder a un repertorio más amplio para la traducción y el aprendizaje. Esto también mejoraría la funcionalidad del reto diario, proporcionando una mayor variedad de términos y enriqueciendo la experiencia de los usuarios al interactuar constantemente con nuevas palabras.
+
+    \item Se recomienda contratar a un diseñador gráfico que desarrolle las imágenes del diccionario, asegurando que sigan la misma línea estética que el resto de la aplicación. Esto no solo mejorará la funcionalidad del diccionario, sino que también elevará la experiencia visual de los usuarios, presentando imágenes claras, atractivas y alineadas con la identidad visual de la aplicación.
+
+    \item La incorporación de opciones de inicio de sesión a través de plataformas populares como Google o Facebook facilitará el acceso de los usuarios, simplificando el proceso de registro y reduciendo las barreras para nuevos usuarios. Esta funcionalidad no solo mejorará la usabilidad de la aplicación, sino que también podría incrementar la tasa de adopción de la aplicación.
+
+    \item Para hacer la aplicación más completa, se recomienda implementar la traducción inversa, permitiendo a los usuarios traducir texto de español a LENSEGUA. Esta funcionalidad expandiría significativamente las posibilidades de la aplicación, facilitando que las personas oyentes aprendan y utilicen LENSEGUA de manera más práctica y efectiva.
+
+    \item Para aumentar el alcance de la aplicación, sería recomendable desarrollar una versión para dispositivos iOS. Esta ampliación permitiría a usuarios de la plataforma de Apple beneficiarse de las funcionalidades de la aplicación, logrando un mayor impacto y accesibilidad para personas sordas y oyentes en un rango más amplio de dispositivos.
+
+
+
+
 \end{enumerate}
 
